@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/Tab"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:columnCount="4" >
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="236dp"
+            android:layout_height="70dp"
+            android:layout_column="1"
+            android:layout_columnSpan="2"
+            android:layout_row="1"
+            android:text="Beer" />
+
+        <Button
+            android:id="@+id/Button02"
+            android:layout_width="117dp"
+            android:layout_height="70dp"
+            android:layout_column="1"
+            android:layout_row="2"
+            android:text="Well" />
+
+        <Button
+            android:id="@+id/Button01"
+            android:layout_width="117dp"
+            android:layout_height="70dp"
+            android:layout_column="2"
+            android:layout_row="2"
+            android:text="Liquor" />
+
+        <Button
+            android:id="@+id/button1"
+            android:layout_width="117dp"
+            android:layout_height="70dp"
+            android:layout_column="1"
+            android:layout_gravity="right"
+            android:layout_row="3"
+            android:text="Bombs" />
+
+        <Button
+            android:id="@+id/Button03"
+            android:layout_width="117dp"
+            android:layout_height="70dp"
+            android:layout_column="2"
+            android:layout_row="3"
+            android:text="Cocktail" />
+
+        <TableLayout
+            android:layout_width="236dp"
+            android:layout_height="168dp"
+            android:layout_column="1"
+            android:layout_columnSpan="2"
+            android:layout_gravity="fill_horizontal"
+            android:layout_row="5"
+            android:columnCount="2" >
+
+            <TableRow
+                android:id="@+id/tableRow1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:id="@+id/textView1"
+                    android:layout_width="117dp"
+                    android:layout_height="wrap_content"
+                    android:text="Beer"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="117dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:text="x0"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/tableRow1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:id="@+id/textView1"
+                    android:layout_width="117dp"
+                    android:layout_height="wrap_content"
+                    android:text="Well"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="117dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:text="x0"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/tableRow1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:id="@+id/textView1"
+                    android:layout_width="117dp"
+                    android:layout_height="wrap_content"
+                    android:text="Liquor"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="117dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:text="x0"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/tableRow1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:id="@+id/textView1"
+                    android:layout_width="117dp"
+                    android:layout_height="wrap_content"
+                    android:text="Bombs"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="117dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:text="x0"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/tableRow1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:id="@+id/textView1"
+                    android:layout_width="117dp"
+                    android:layout_height="wrap_content"
+                    android:text="Cocktail"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="117dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:text="x0"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+            </TableRow>
+        </TableLayout>
+
+        <Space
+            android:layout_width="42dp"
+            android:layout_height="5dp"
+            android:layout_column="0"
+            android:layout_gravity="fill_horizontal"
+            android:layout_row="0" />
+
+        <Space
+            android:layout_width="1dp"
+            android:layout_height="10dp"
+            android:layout_column="0"
+            android:layout_gravity="fill_horizontal"
+            android:layout_row="4" />
+    </GridLayout>
+
+</LinearLayout>
