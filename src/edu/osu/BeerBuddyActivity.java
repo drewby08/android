@@ -5,6 +5,9 @@ import android.app.TabActivity;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.TabHost;
 
 public class BeerBuddyActivity extends TabActivity {
@@ -39,4 +42,23 @@ public class BeerBuddyActivity extends TabActivity {
 
         tabHost.setCurrentTab(2);
     }
+    
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        menu.add(0,Menu.FIRST,0,"Quit");
+        return true;
+    }
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case Menu.FIRST:
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+    
 }

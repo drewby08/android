@@ -1,8 +1,12 @@
 package edu.osu;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -11,6 +15,7 @@ public class TabTrackerActivity extends Activity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.bartab);
         
+              
         final Button buttonBeer = (Button) findViewById(R.id.button_beer);
         final TextView totalBeer = (TextView) findViewById(R.id.total_beer);
         
@@ -70,6 +75,21 @@ public class TabTrackerActivity extends Activity{
             	totalCocktail.setText(Integer.toString(num_cocktail));
             }
         });
+        
+        final Button buttonClear = (Button) findViewById(R.id.button_clear);
+        
+        buttonClear.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // Perform action on click
+            	totalBeer.setText("0");
+            	totalWell.setText("0");
+            	totalLiquor.setText("0");
+            	totalBombs.setText("0");
+            	totalCocktail.setText("0");
+            }
+        });
+        
     }
-
+	
+	
 }
