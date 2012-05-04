@@ -12,7 +12,7 @@ import android.widget.TabHost;
 
 public class BeerBuddyActivity extends TabActivity {
     /** Called when the activity is first created. */
-
+	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,27 +28,27 @@ public class BeerBuddyActivity extends TabActivity {
 
         // Initialize a TabSpec for each tab and add it to the TabHost
         spec = tabHost.newTabSpec("bar tab").setIndicator("bar tab",
-                res.getDrawable(R.drawable.ic_launcher))
-                .setContent(intent);
+                          res.getDrawable(R.drawable.ic_launcher))
+                      .setContent(intent);
         tabHost.addTab(spec);
 
         // Do the same for the other tabs
         intent = new Intent().setClass(this, LocActivity.class);
         spec = tabHost.newTabSpec("where am i").setIndicator("where am i",
-                res.getDrawable(R.drawable.ic_launcher))
-                .setContent(intent);
+                          res.getDrawable(R.drawable.ic_launcher))
+                      .setContent(intent);
         tabHost.addTab(spec);
 
 
         tabHost.setCurrentTab(2);
     }
-
+    
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         menu.add(0,Menu.FIRST,0,"Quit");
         return true;
     }
-
+    
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
@@ -60,5 +60,5 @@ public class BeerBuddyActivity extends TabActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
-
+    
 }

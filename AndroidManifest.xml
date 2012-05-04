@@ -21,13 +21,12 @@
         </activity>
         
         <activity android:name=".TabTrackerActivity"/>
+        
         <activity android:name=".LocActivity"/>
         
         <uses-library android:name="com.google.android.maps" />
+        
+        
     </application>
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
 </manifest>
