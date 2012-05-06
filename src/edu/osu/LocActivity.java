@@ -21,11 +21,11 @@ import java.io.IOException;
 import java.util.List;
 
 public class LocActivity extends MapActivity{
-    private MyLocationOverlay myLocationOverlay;
+    private MyLocationOverlayExtension myLocationOverlay;
     private static final String TAG = "LocationActivity";
-	LinearLayout linearLayout;
+	//LinearLayout linearLayout;
     private MapController mapViewController;
-    private MapView mapView;
+    //private MapView mapView;
     LocationManager locationManager;
     Geocoder myGeoLocator;
 
@@ -35,34 +35,27 @@ public class LocActivity extends MapActivity{
         setContentView(R.layout.whereami);
         checkIfGPSIsEnabled();
 
-        mapView = (MapView) findViewById(R.id.mapview);
+        MapView mapView = (MapView) findViewById(R.id.mapview);
         mapView.setBuiltInZoomControls(true);
         mapView.setSatellite(true);
 
+        myLocationOverlay = new MyLocationOverlayExtension(this, mapView);
+        //Quickly attempt to get the current location using the fastest means possible.
+        myLocationOverlay.runOnFirstFix(new Runnable() {
+            @Override
+            public void run() {
+                mapViewController.animateTo(myLocationOverlay.getMyLocation());
+            }
+        });
+        myLocationOverlay.enableMyLocation();
+        mapView.getOverlays().add(myLocationOverlay);
+        mapView.postInvalidate();
+
         mapViewController = mapView.getController();
         mapViewController.setZoom(18);
-        mapViewController.animateTo(geoPoint);
 
-        List<Overlay> overlays = mapView.getOverlays();
-        overlays.clear();
-        overlays.add(new MyOverlay());
-
+        //mapViewController.animateTo(myLocationOverlay.getMyLocation());
         mapView.invalidate();
-
-        // Acquire a reference to the system Location Manager
-        //locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-
-        //myGeoLocator = new Geocoder(this);
-        //Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        //if (location != null) {
-        //    Log.d(TAG, location.toString());
-        //    //this.onLocationChanged(location); //<6>
-        //}
-        //myLocationOverlay = new MyLocationOverlay(this, mapView);
-        //myLocationOverlay.enableMyLocation();
-        //mapView.getOverlays().add(myLocationOverlay);
-        //mapView.invalidate();
-
     }
 
     private void checkIfGPSIsEnabled() {
@@ -79,6 +72,21 @@ public class LocActivity extends MapActivity{
         }
     }
 
+    private class MyLocationOverlayExtension extends MyLocationOverlay {
+
+        public MyLocationOverlayExtension(Context context, MapView mapView) {
+            super(context, mapView);
+        }
+
+        @Override
+        public synchronized void onLocationChanged(Location location) {
+            super.onLocationChanged(location);
+            GeoPoint point = new GeoPoint((int) (location.getLatitude() * 1E6), (int) (location.getLongitude() * 1E6));
+            mapViewController.animateTo(point);
+        }
+
+    }
+
 	@Override
 	protected boolean isRouteDisplayed() {
 		// TODO Auto-generated method stub
@@ -88,62 +96,12 @@ public class LocActivity extends MapActivity{
     @Override
     protected void onResume() {
         super.onResume();
-        //myLocationOverlay.enableMyLocation();
+        myLocationOverlay.enableMyLocation();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        //myLocationOverlay.disableMyLocation();
+        myLocationOverlay.disableMyLocation();
     }
-
-//    @Override
-//    public void onLocationChanged(Location location) { //<9>
-//        Log.d(TAG, "onLocationChanged with location " + location.toString());
-//
-//        try {
-//            //List<Address> addresses = myGeoLocator.getFromLocation(location.getLatitude(), location.getLongitude(), 10);
-//
-//            int latitude = (int)(location.getLatitude() * 1000000);
-//            int longitude = (int)(location.getLongitude() * 1000000);
-//
-//            GeoPoint point = new GeoPoint(latitude,longitude);
-//            mapViewController.animateTo(point); //<11>
-//
-//        } catch (IOException e) {
-//            Log.e("LocateMe", "Could not get Geocoder data", e);
-//        }
-//    }
-
-    GeoPoint geoPoint = new GeoPoint((int) (52.334822 * 1E6), (int) (4.668907 * 1E6));
-    private class MyOverlay extends com.google.android.maps.Overlay {
-
-        @Override
-        public void draw(Canvas canvas, MapView mapView, boolean shadow) {
-            super.draw(canvas, mapView, shadow);
-
-            if (!shadow) {
-
-                Point point = new Point();
-                mapView.getProjection().toPixels(geoPoint, point);
-
-                Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.marker_default);
-
-                /**
-                 * Shift it left so the center of the image is aligned with the x-coordinate of the geo point
-                 */
-                int x = point.x - bmp.getWidth() / 2;
-
-                /**
-                 * Shift it upward so the bottom of the image is aligned with the y-coordinate of the geo point
-                 */
-                int y = point.y - bmp.getHeight();
-
-                canvas.drawBitmap(bmp, x, y, null);
-
-            }
-        }
-
-    }
-
 }
