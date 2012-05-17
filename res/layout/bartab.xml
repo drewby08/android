@@ -8,47 +8,54 @@
     <GridLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:columnCount="4" >
-
+        android:columnCount="6" >
+
         <Button
             android:id="@+id/button_beer"
             android:layout_width="236dp"
             android:layout_height="70dp"
             android:layout_column="1"
-            android:layout_columnSpan="2"
-            android:layout_row="1"
+            android:layout_columnSpan="3"
+            android:layout_row="0"
+            android:layout_rowSpan="2"
             android:text="Beer" />
-
+
         <Button
             android:id="@+id/button_well"
             android:layout_width="117dp"
             android:layout_height="70dp"
             android:layout_column="1"
+            android:layout_columnSpan="2"
             android:layout_row="2"
             android:text="Well" />
-
+
         <Button
             android:id="@+id/button_liquor"
             android:layout_width="117dp"
             android:layout_height="70dp"
             android:layout_column="2"
+            android:layout_columnSpan="2"
+            android:layout_gravity="bottom|right"
             android:layout_row="2"
             android:text="Liquor" />
-
+
         <Button
             android:id="@+id/button_bombs"
             android:layout_width="117dp"
             android:layout_height="70dp"
             android:layout_column="1"
-            android:layout_gravity="right"
+            android:layout_columnSpan="2"
+            android:layout_gravity="bottom"
             android:layout_row="3"
             android:text="Bombs" />
-
+
         <Button
             android:id="@+id/button_cocktail"
             android:layout_width="117dp"
             android:layout_height="70dp"
             android:layout_column="2"
+            android:layout_columnSpan="2"
+            android:layout_gravity="bottom|right"
             android:layout_row="3"
             android:text="Cocktail" />
 
@@ -56,9 +63,9 @@
             android:layout_width="236dp"
             android:layout_height="168dp"
             android:layout_column="1"
-            android:layout_columnSpan="2"
+            android:layout_columnSpan="3"
             android:layout_gravity="fill_horizontal"
-            android:layout_row="5"
+            android:layout_row="4"
             android:columnCount="2" >
 
             <TableRow
@@ -72,7 +79,7 @@
                     android:layout_height="wrap_content"
                     android:text="Beer"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
-
+
                 <TextView
                     android:id="@+id/total_beer"
                     android:layout_width="117dp"
@@ -80,7 +87,6 @@
                     android:gravity="right"
                     android:text="0"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
-
             </TableRow>
 
             <TableRow
@@ -94,7 +100,7 @@
                     android:layout_height="wrap_content"
                     android:text="Well"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
-
+
                 <TextView
                     android:id="@+id/total_well"
                     android:layout_width="117dp"
@@ -102,7 +108,6 @@
                     android:gravity="right"
                     android:text="0"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
-
             </TableRow>
 
             <TableRow
@@ -116,7 +121,7 @@
                     android:layout_height="wrap_content"
                     android:text="Liquor"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
-
+
                 <TextView
                     android:id="@+id/total_liquor"
                     android:layout_width="117dp"
@@ -124,7 +129,6 @@
                     android:gravity="right"
                     android:text="0"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
-
             </TableRow>
 
             <TableRow
@@ -138,7 +142,7 @@
                     android:layout_height="wrap_content"
                     android:text="Bombs"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
-
+
                 <TextView
                     android:id="@+id/total_bombs"
                     android:layout_width="117dp"
@@ -146,7 +150,6 @@
                     android:gravity="right"
                     android:text="0"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
-
             </TableRow>
 
             <TableRow
@@ -160,7 +163,7 @@
                     android:layout_height="wrap_content"
                     android:text="Cocktail"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
-
+
                 <TextView
                     android:id="@+id/total_cocktail"
                     android:layout_width="117dp"
@@ -168,30 +171,21 @@
                     android:gravity="right"
                     android:text="0"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
-
             </TableRow>
         </TableLayout>
-
+
         <Button
             android:id="@+id/button_clear"
-            android:layout_column="2"
+            android:layout_column="3"
             android:layout_gravity="bottom|right"
             android:layout_row="5"
             android:text="Clear" />
 
         <Space
-            android:layout_width="42dp"
-            android:layout_height="5dp"
+            android:layout_width="64dp"
+            android:layout_height="1dp"
             android:layout_column="0"
-            android:layout_gravity="fill_horizontal"
             android:layout_row="0" />
-
-        <Space
-            android:layout_width="1dp"
-            android:layout_height="10dp"
-            android:layout_column="0"
-            android:layout_gravity="fill_horizontal"
-            android:layout_row="4" />
     </GridLayout>
 
 </LinearLayout>

@@ -14,8 +14,7 @@ public class TabTrackerActivity extends Activity{
 	public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.bartab);
-        
-              
+             
         final Button buttonBeer = (Button) findViewById(R.id.button_beer);
         final TextView totalBeer = (TextView) findViewById(R.id.total_beer);
         
@@ -24,6 +23,7 @@ public class TabTrackerActivity extends Activity{
                 // Perform action on click
             	int num_beer = Integer.parseInt((String)totalBeer.getText());
             	num_beer++;
+            	BarTab.beer=num_beer;
             	totalBeer.setText(Integer.toString(num_beer));
             }
         });
@@ -36,6 +36,7 @@ public class TabTrackerActivity extends Activity{
                 // Perform action on click
             	int num_well = Integer.parseInt((String)totalWell.getText());
             	num_well++;
+            	BarTab.well = num_well;
             	totalWell.setText(Integer.toString(num_well));
             }
         });
@@ -48,6 +49,7 @@ public class TabTrackerActivity extends Activity{
                 // Perform action on click
             	int num_liquor = Integer.parseInt((String)totalLiquor.getText());
             	num_liquor++;
+            	BarTab.liquor = num_liquor;
             	totalLiquor.setText(Integer.toString(num_liquor));
             }
         });
@@ -60,6 +62,7 @@ public class TabTrackerActivity extends Activity{
                 // Perform action on click
             	int num_bombs = Integer.parseInt((String)totalBombs.getText());
             	num_bombs++;
+            	BarTab.bombs = num_bombs;
             	totalBombs.setText(Integer.toString(num_bombs));
             }
         });
@@ -72,6 +75,7 @@ public class TabTrackerActivity extends Activity{
                 // Perform action on click
             	int num_cocktail = Integer.parseInt((String)totalCocktail.getText());
             	num_cocktail++;
+            	BarTab.cocktail = num_cocktail;
             	totalCocktail.setText(Integer.toString(num_cocktail));
             }
         });
@@ -86,6 +90,12 @@ public class TabTrackerActivity extends Activity{
             	totalLiquor.setText("0");
             	totalBombs.setText("0");
             	totalCocktail.setText("0");
+            	
+            	BarTab.beer = 0;
+            	BarTab.well = 0;
+            	BarTab.liquor = 0;
+            	BarTab.bombs = 0;
+            	BarTab.cocktail = 0;
             }
         });
         

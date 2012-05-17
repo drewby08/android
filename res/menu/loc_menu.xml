@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/menu_find_bars"
+          android:title="find bars"
+          android:showAsAction="ifRoom|withText"/>
+    <item android:id="@+id/menu_find_food"
+          android:title="find_food"
+          android:showAsAction="ifRoom|withText"/>
+</menu>

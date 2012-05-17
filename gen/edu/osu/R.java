@@ -23,7 +23,9 @@ public final class R {
         public static final int button_liquor=0x7f060003;
         public static final int button_well=0x7f060002;
         public static final int mapview=0x7f06000e;
-        public static final int menu_clear_totals=0x7f06000f;
+        public static final int menu_clear_totals=0x7f060011;
+        public static final int menu_find_bars=0x7f06000f;
+        public static final int menu_find_food=0x7f060010;
         public static final int tableRow1=0x7f060006;
         public static final int textView1=0x7f060007;
         public static final int total_beer=0x7f060008;
@@ -38,7 +40,8 @@ public final class R {
         public static final int whereami=0x7f030002;
     }
     public static final class menu {
-        public static final int menu=0x7f050000;
+        public static final int loc_menu=0x7f050000;
+        public static final int tab_menu=0x7f050001;
     }
     public static final class string {
         public static final int app_name=0x7f040001;

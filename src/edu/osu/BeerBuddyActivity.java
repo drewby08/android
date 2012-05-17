@@ -1,5 +1,6 @@
 package edu.osu;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.TabActivity;
 import android.content.Intent;
@@ -17,6 +18,10 @@ public class BeerBuddyActivity extends TabActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+        
+        //hide the action bar
+        ActionBar actionBar = getActionBar();
+        actionBar.hide();
 
         Resources res = getResources(); // Resource object to get Drawables
         TabHost tabHost = getTabHost();  // The activity TabHost
@@ -43,11 +48,14 @@ public class BeerBuddyActivity extends TabActivity {
         tabHost.setCurrentTab(2);
     }
 
+    /* currently does nothing as action bar is hidden
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         menu.add(0,Menu.FIRST,0,"Quit");
         return true;
     }
+    
+    
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -60,5 +68,6 @@ public class BeerBuddyActivity extends TabActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+    */
 
 }
