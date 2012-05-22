@@ -43,9 +43,16 @@ public class BeerBuddyActivity extends TabActivity {
                 res.getDrawable(R.drawable.ic_launcher))
                 .setContent(intent);
         tabHost.addTab(spec);
+        
+     // Do the same for the other tabs
+        intent = new Intent().setClass(this, BacActivity.class);
+        spec = tabHost.newTabSpec("BAC").setIndicator("BAC",
+                res.getDrawable(R.drawable.ic_launcher))
+                .setContent(intent);
+        tabHost.addTab(spec);
 
 
-        tabHost.setCurrentTab(2);
+        tabHost.setCurrentTab(3);
     }
 
     /* currently does nothing as action bar is hidden

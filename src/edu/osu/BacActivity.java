@@ -36,7 +36,7 @@ public class BacActivity extends Activity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.bac);
              
-        //--------------------Drinking Start Time---------------------
+        //--------------------Drinking Start Time-------------------
         mTimeDisplay = (TextView) findViewById(R.id.timeDisplay);
         mPickTime = (Button) findViewById(R.id.pickTime);
         

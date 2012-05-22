@@ -128,7 +128,7 @@ public class TabTrackerActivity extends Activity{
 		ed.commit();
 	}
 	
-	//on Resume restores the previous drink count totals
+	//on Resume restores the previous drink count total
 	@Override
 	protected void onResume()
 	{
