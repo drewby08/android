@@ -208,7 +208,7 @@
         android:id="@+id/bac_bloodAlcoholContent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Current Estimated BAC: "
+        android:text="Estimated BAC: "
         android:paddingTop="10dp"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 

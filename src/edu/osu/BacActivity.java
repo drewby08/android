@@ -1,5 +1,6 @@
 package edu.osu;
 
+import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
 
@@ -115,15 +116,33 @@ public class BacActivity extends Activity{
                 	
                 	//Finds the amount bac has decreased during drinking
                 	//Subtracts .005% per 20 mins
-//                	int soberingFactorHour = (diffInSec / (long)1200);
-//                	double subtraction = (.02 * soberingFactor);
-//                	
-//                	bac = bac - subtraction;
-//                	updateBac(bacView, (double) diffInSec);
+                	double soberingFactor = ((double)totalDiff / 20.0);
+                	double subtraction = (.005 * soberingFactor);
+                	
+                	bac = bac - subtraction;
+                	updateBac(bacView, round(bac, 2, BigDecimal.ROUND_HALF_UP));
                 }
                 //Algorithm used for women
                 else{
+                	//Calculate BAC based on alcohol and weight, using .02% per drink
+                	//Cocktails will count as 2 drinks, wells as .75 of a drink
                 	
+                	//Find proportionate weight factor based on .03% for a 140lb woman
+                	double weightFactor = (140/(double)weight);
+                	double bac = 0.0;
+                	bac = bac + ((double)BarTab.beer * (.03 * weightFactor));
+                	bac = bac + ((double)BarTab.well * (.03*.75* weightFactor));
+                	bac = bac + ((double)BarTab.liquor * (.03 * weightFactor));
+                	bac = bac + ((double)BarTab.bombs * (.03 * weightFactor));
+                	bac = bac + ((double)BarTab.cocktail * (.05 * weightFactor));
+                	
+                	//Finds the amount bac has decreased during drinking
+                	//Subtracts .005% per 20 mins
+                	double soberingFactor = ((double)totalDiff / 20.0);
+                	double subtraction = (.005 * soberingFactor);
+                	
+                	bac = bac - subtraction;
+                	updateBac(bacView, bac);
                 }
             }
         });
@@ -181,6 +200,12 @@ public class BacActivity extends Activity{
                 updateDisplay();
             }
         };
+        
+    public static double round(double unrounded, int precision, int roundingMode){
+        BigDecimal bd = new BigDecimal(unrounded);
+        BigDecimal rounded = bd.setScale(precision, roundingMode);
+        return rounded.doubleValue();
+    }
 	
         
     protected void onResume(){
