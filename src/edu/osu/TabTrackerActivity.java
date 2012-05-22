@@ -1,20 +1,23 @@
 package edu.osu;
 
-import android.app.ActionBar;
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 
 public class TabTrackerActivity extends Activity{
+	
+	//shared pref
+	public static final String PREFS_COUNT = "MyPrefsFile";
+	
+	//onCreate method
 	public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.bartab);
-             
+        
+        //beer button
         final Button buttonBeer = (Button) findViewById(R.id.button_beer);
         final TextView totalBeer = (TextView) findViewById(R.id.total_beer);
         
@@ -28,6 +31,7 @@ public class TabTrackerActivity extends Activity{
             }
         });
         
+        //well button
         final Button buttonWell = (Button) findViewById(R.id.button_well);
         final TextView totalWell = (TextView) findViewById(R.id.total_well);
         
@@ -41,6 +45,7 @@ public class TabTrackerActivity extends Activity{
             }
         });
         
+        //liquor button
         final Button buttonLiquor = (Button) findViewById(R.id.button_liquor);
         final TextView totalLiquor = (TextView) findViewById(R.id.total_liquor);
         
@@ -54,6 +59,7 @@ public class TabTrackerActivity extends Activity{
             }
         });
         
+        //bomb button
         final Button buttonBombs = (Button) findViewById(R.id.button_bombs);
         final TextView totalBombs = (TextView) findViewById(R.id.total_bombs);
         
@@ -67,6 +73,7 @@ public class TabTrackerActivity extends Activity{
             }
         });
         
+        //cocktail button
         final Button buttonCocktail = (Button) findViewById(R.id.button_cocktail);
         final TextView totalCocktail = (TextView) findViewById(R.id.total_cocktail);
         
@@ -80,6 +87,7 @@ public class TabTrackerActivity extends Activity{
             }
         });
         
+        //clear button
         final Button buttonClear = (Button) findViewById(R.id.button_clear);
         
         buttonClear.setOnClickListener(new View.OnClickListener() {
@@ -100,6 +108,67 @@ public class TabTrackerActivity extends Activity{
         });
         
     }
+	//on pause.. on resume
+	
+	//on pause preserves the current drink count in a shared preference
+	@Override
+	protected void onPause()
+	{
+		super.onPause();
+		
+		SharedPreferences beerPrefs = getSharedPreferences(PREFS_COUNT,0);
+		
+		SharedPreferences.Editor ed = beerPrefs.edit();
+		ed.putInt("beer", BarTab.beer);
+		ed.putInt("well", BarTab.well);
+		ed.putInt("liquor", BarTab.liquor);
+		ed.putInt("bombs", BarTab.bombs);
+		ed.putInt("cocktail", BarTab.cocktail);
+		
+		ed.commit();
+	}
+	
+	//on Resume restores the previous drink count totals
+	@Override
+	protected void onResume()
+	{
+		super.onResume();
+		
+		SharedPreferences beerPrefs = getSharedPreferences(PREFS_COUNT,0);
+		
+		//find the text views
+		final TextView totalBeer = (TextView) findViewById(R.id.total_beer);
+		final TextView totalWell = (TextView) findViewById(R.id.total_well);
+		final TextView totalLiquor = (TextView) findViewById(R.id.total_liquor);
+		final TextView totalBombs = (TextView) findViewById(R.id.total_bombs);
+		final TextView totalCocktail = (TextView) findViewById(R.id.total_cocktail);
+		
+		//get the previous drink counts
+		int beerCount = beerPrefs.getInt("beer",0);
+		int wellCount = beerPrefs.getInt("well",0);
+		int liquorCount = beerPrefs.getInt("liquor",0);
+		int bombsCount = beerPrefs.getInt("bombs",0);
+		int cocktailCount = beerPrefs.getInt("cocktail",0);
+		
+		//reset the labels to the previous values
+		totalBeer.setText(Integer.toString(beerCount));
+    	totalWell.setText(Integer.toString(wellCount));
+    	totalLiquor.setText(Integer.toString(liquorCount));
+    	totalBombs.setText(Integer.toString(bombsCount));
+    	totalCocktail.setText(Integer.toString(cocktailCount));
+    	
+    	
+    	//update the BarTab fields
+    	BarTab.beer = beerCount;
+    	BarTab.well = wellCount;
+    	BarTab.liquor = liquorCount;
+    	BarTab.bombs = bombsCount;
+    	BarTab.cocktail = cocktailCount;
+    	
+    	
+		
+				
+	}
 	
 	
 }

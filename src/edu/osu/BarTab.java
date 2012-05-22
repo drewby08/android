@@ -6,4 +6,5 @@ public class BarTab {
 	public static int liquor = 0;
 	public static int bombs = 0;
 	public static int cocktail = 0;
+	
 }
