@@ -2,6 +2,8 @@ package edu.osu;
 
 import android.location.Location;
 
+import java.util.Comparator;
+
 public class FourSquareVenue {
     public String id;
     public String name;
