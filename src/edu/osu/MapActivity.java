@@ -59,6 +59,7 @@ public class MapActivity extends com.google.android.maps.MapActivity {
         VenueOverlay venueOverlay = new VenueOverlay(markerDefault);
         try{
             ArrayList<FourSquareVenue> venues = new LocationOverlay().getNearby(myLocationOverlay.getMyLocation().getLatitudeE6(), myLocationOverlay.getMyLocation().getLongitudeE6());
+            Log.d(TAG, "There are " + venues.size() + " venues returned");
             FourSquareVenue place = new FourSquareVenue();
             //Collections.sort(venues, CheckedInComparator());
             while (venues.size() > 0) {
