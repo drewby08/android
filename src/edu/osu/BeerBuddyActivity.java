@@ -1,14 +1,10 @@
 package edu.osu;
 
 import android.app.ActionBar;
-import android.app.Activity;
 import android.app.TabActivity;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.widget.TabHost;
 
 public class BeerBuddyActivity extends TabActivity {
@@ -38,7 +34,7 @@ public class BeerBuddyActivity extends TabActivity {
         tabHost.addTab(spec);
 
         // Do the same for the other tabs
-        intent = new Intent().setClass(this, LocActivity.class);
+        intent = new Intent().setClass(this, MapActivity.class);
         spec = tabHost.newTabSpec("where am i").setIndicator("where am i",
                 res.getDrawable(R.drawable.ic_launcher))
                 .setContent(intent);
