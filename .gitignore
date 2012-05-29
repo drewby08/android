@@ -16,3 +16,7 @@ gen/
 local.properties
 
 .idea/*
+
+.DS_Store
+
+BeerHelper.iml
