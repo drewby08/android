@@ -2,11 +2,8 @@ package edu.osu;
 
 // Graphic Marker Imports
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Point;
 import android.graphics.drawable.Drawable;
+import android.location.Criteria;
 import android.os.Bundle;
 
 import android.content.Context;
@@ -17,11 +14,10 @@ import android.provider.Settings;
 import android.util.Log;
 import android.widget.Toast;
 import com.google.android.maps.*;
-import android.widget.LinearLayout;
+import fi.foyt.foursquare.api.FoursquareApiException;
+import fi.foyt.foursquare.api.entities.CompactVenue;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class MapActivity extends com.google.android.maps.MapActivity {
@@ -54,23 +50,6 @@ public class MapActivity extends com.google.android.maps.MapActivity {
         myLocationOverlay.enableMyLocation();
         mapView.getOverlays().add(myLocationOverlay);
 
-        // Add Foursquare Locations
-        Drawable markerDefault = this.getResources().getDrawable(R.drawable.food_biergarten);
-        VenueOverlay venueOverlay = new VenueOverlay(markerDefault);
-        try{
-            ArrayList<FourSquareVenue> venues = new LocationOverlay().getNearby(myLocationOverlay.getMyLocation().getLatitudeE6(), myLocationOverlay.getMyLocation().getLongitudeE6());
-            Log.d(TAG, "There are " + venues.size() + " venues returned");
-            FourSquareVenue place = new FourSquareVenue();
-            //Collections.sort(venues, CheckedInComparator());
-            while (venues.size() > 0) {
-                place = venues.remove(0);
-                venueOverlay.addOverlayItem((int) (place.location.getLatitude()*1E6),(int) (place.location.getLongitude() * 1E6),place.name, markerDefault);
-            }
-            mapView.getOverlays().add(venueOverlay);
-        } catch (Exception e) {
-            Toast.makeText(MapActivity.this, "Unable to load Bars", Toast.LENGTH_LONG).show();
-        }
-
         mapView.postInvalidate();
 
         mapViewController = mapView.getController();
@@ -78,6 +57,9 @@ public class MapActivity extends com.google.android.maps.MapActivity {
 
         //mapViewController.animateTo(myLocationOverlay.getMyLocation());
         mapView.invalidate();
+
+        VenueOverlay venueOverlay = AddFoursquareLocations();
+        mapView.getOverlays().add(venueOverlay);
     }
 
     private void checkIfGPSIsEnabled() {
@@ -105,6 +87,7 @@ public class MapActivity extends com.google.android.maps.MapActivity {
             super.onLocationChanged(location);
             GeoPoint point = new GeoPoint((int) (location.getLatitude() * 1E6), (int) (location.getLongitude() * 1E6));
             mapViewController.animateTo(point);
+            super.onLocationChanged(location);
         }
 
     }
@@ -166,6 +149,35 @@ public class MapActivity extends com.google.android.maps.MapActivity {
             Toast.makeText(MapActivity.this, getItem(index).getTitle(), Toast.LENGTH_LONG).show();
             return true;
         }
+
+    }
+
+    private VenueOverlay AddFoursquareLocations() {
+        // Add Foursquare Locations
+        Drawable markerDefault = this.getResources().getDrawable(R.drawable.food_biergarten);
+        VenueOverlay venueOverlay = new VenueOverlay(markerDefault);
+        Location location = getLocation();
+        try{
+            FoursquareSearch search = new FoursquareSearch();
+            String ll = location.getLatitude() + "," + location.getLongitude();
+            ArrayList<CompactVenue> results = search.searchVenues(ll);
+            while (results.size() > 0) {
+                CompactVenue place = results.remove(0);
+                venueOverlay.addOverlayItem((int) (place.getLocation().getLat() * 1E6),(int) (place.getLocation().getLng() * 1E6),place.getName(), markerDefault);
+            }
+            //mapView.getOverlays().add(venueOverlay);
+            return venueOverlay;
+        } catch (FoursquareApiException e) {
+            Toast.makeText(MapActivity.this, "Unable to load Bars", Toast.LENGTH_LONG).show();
+        }
+        return null;
+    }
+
+    private Location getLocation() {
+        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        Criteria criteria = new Criteria();
+        String bestProvider = locationManager.getBestProvider(criteria, false);
+        return locationManager.getLastKnownLocation(bestProvider);
 
     }
 
