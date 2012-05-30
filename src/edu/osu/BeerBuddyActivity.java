@@ -2,21 +2,29 @@ package edu.osu;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.app.TabActivity;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TabHost;
 
 public class BeerBuddyActivity extends TabActivity {
+	protected Dialog mSplashDialog;
+	
     /** Called when the activity is first created. */
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        
+        showSplashScreen();
+               
         setContentView(R.layout.main);
         
         //hide the action bar
@@ -76,5 +84,34 @@ public class BeerBuddyActivity extends TabActivity {
         }
     }
     */
+    
+    /**
+     * Removes the Dialog that displays the splash screen
+     */
+    protected void removeSplashScreen() {
+        if (mSplashDialog != null) {
+            mSplashDialog.dismiss();
+            mSplashDialog = null;
+        }
+    }
+     
+    /**
+     * Shows the splash screen over the full Activity
+     */
+    protected void showSplashScreen() {
+        mSplashDialog = new Dialog(this, R.layout.splash);
+        mSplashDialog.setContentView(R.layout.splash);
+        mSplashDialog.setCancelable(false);
+        mSplashDialog.show();
+     
+        // Set Runnable to remove splash screen just in case
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+          @Override
+          public void run() {
+            removeSplashScreen();
+          }
+        }, 3000);
+    }
 
 }

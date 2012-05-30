@@ -12,7 +12,8 @@ public final class R {
     }
     public static final class drawable {
         public static final int dummymap=0x7f020000;
-        public static final int ic_launcher=0x7f020001;
+        public static final int foursquare_logo=0x7f020001;
+        public static final int ic_launcher=0x7f020002;
     }
     public static final class id {
         public static final int Tab=0x7f060010;
@@ -30,11 +31,13 @@ public final class R {
         public static final int button_cocktail=0x7f060015;
         public static final int button_liquor=0x7f060013;
         public static final int button_well=0x7f060012;
-        public static final int mapview=0x7f06001c;
-        public static final int menu_clear_totals=0x7f06001f;
-        public static final int menu_find_bars=0x7f06001d;
-        public static final int menu_find_food=0x7f06001e;
+        public static final int imageView1=0x7f06001c;
+        public static final int mapview=0x7f06001e;
+        public static final int menu_clear_totals=0x7f060021;
+        public static final int menu_find_bars=0x7f06001f;
+        public static final int menu_find_food=0x7f060020;
         public static final int pickTime=0x7f060001;
+        public static final int progressBar1=0x7f06001d;
         public static final int radioFemale=0x7f060004;
         public static final int radioMale=0x7f060003;
         public static final int radioSex=0x7f060002;
@@ -52,7 +55,8 @@ public final class R {
         public static final int bac=0x7f030000;
         public static final int bartab=0x7f030001;
         public static final int main=0x7f030002;
-        public static final int whereami=0x7f030003;
+        public static final int splash=0x7f030003;
+        public static final int whereami=0x7f030004;
     }
     public static final class menu {
         public static final int loc_menu=0x7f050000;
