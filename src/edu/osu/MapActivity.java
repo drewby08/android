@@ -214,9 +214,4 @@ public class MapActivity extends com.google.android.maps.MapActivity {
         return locationManager.getLastKnownLocation(bestProvider);
 
     }
-
-    private Drawable getMarkerBeer() {
-        return this.getResources().getDrawable(R.drawable.food_biergarten);
-    }
-
 }
