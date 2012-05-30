@@ -35,6 +35,8 @@ public class FoursquareSearch {
         } else
         {
             Log.e(TAG, "Foursquare API call returned code: " + result.getMeta().getCode());
+            Log.e(TAG, result.getMeta().getErrorType());
+            Log.e(TAG, result.getMeta().getErrorDetail());
             return null;
         }
     }
