@@ -30,12 +30,17 @@ public class MapActivity extends com.google.android.maps.MapActivity {
     LocationManager locationManager;
     Geocoder myGeoLocator;
     private static FoursquareSearch search = new FoursquareSearch();
-    private Drawable markerBeer = getResources().getDrawable(R.drawable.food_biergarten);
-    private VenueOverlay venueOverlay = new VenueOverlay(markerBeer);
+    //private Drawable markerBeer = getResources().getDrawable(R.drawable.food_biergarten);
+    private Drawable markerBeer;
+    private VenueOverlay venueOverlay;
 
 
 	
 	public void onCreate(Bundle savedInstanceState) {
+        markerBeer = getResources().getDrawable(R.drawable.food_biergarten);
+        venueOverlay = new VenueOverlay(markerBeer);
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.whereami);
         checkIfGPSIsEnabled();
