@@ -26,7 +26,7 @@ public class MapActivity extends com.google.android.maps.MapActivity {
     private static final String TAG = "LocationActivity";
 	//LinearLayout linearLayout;
     private MapController mapViewController;
-    //private MapView mapView;
+    private MapView mapView;
     LocationManager locationManager;
     Geocoder myGeoLocator;
     private static FoursquareSearch search = new FoursquareSearch();
@@ -45,7 +45,7 @@ public class MapActivity extends com.google.android.maps.MapActivity {
         setContentView(R.layout.whereami);
         checkIfGPSIsEnabled();
 
-        MapView mapView = (MapView) findViewById(R.id.mapview);
+        mapView = (MapView) findViewById(R.id.mapview);
         mapView.setBuiltInZoomControls(true);
         mapView.setSatellite(true);
 
@@ -71,14 +71,17 @@ public class MapActivity extends com.google.android.maps.MapActivity {
         new AsyncTask<String,Void,ArrayList<CompactVenue>>() {
             @Override
             protected void onPreExecute() {
-
+                Log.d(TAG, "Entering Foursquare ASync Request");
             }
+
             @Override
             protected void onPostExecute(ArrayList<CompactVenue> taskResult) {
                 while (taskResult.size() > 0) {
                     CompactVenue place = taskResult.remove(0);
                     venueOverlay.addOverlayItem((int) (place.getLocation().getLat() * 1E6),(int) (place.getLocation().getLng() * 1E6),place.getName(), markerBeer);
                 }
+                mapView.getOverlays().add(venueOverlay);
+                mapView.invalidate();
             }
 
             @Override
@@ -93,7 +96,6 @@ public class MapActivity extends com.google.android.maps.MapActivity {
             }
 
         };
-        mapView.getOverlays().add(venueOverlay);
     }
 
     private void checkIfGPSIsEnabled() {
