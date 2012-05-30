@@ -68,40 +68,7 @@ public class MapActivity extends com.google.android.maps.MapActivity {
         //mapViewController.animateTo(myLocationOverlay.getMyLocation());
         mapView.invalidate();
 
-        AsyncTask<String, Void, ArrayList<CompactVenue>> async = new AsyncTask<String, Void, ArrayList<CompactVenue>>() {
-            @Override
-            protected void onPreExecute() {
-                Log.d(TAG, "Entering Foursquare ASync Request");
-            }
-
-            @Override
-            protected void onPostExecute(ArrayList<CompactVenue> taskResult) {
-                if (taskResult == null) {
-                    Toast.makeText(MapActivity.this, "Unable to load Bars", Toast.LENGTH_LONG).show();
-                } else {
-                    while (taskResult.size() > 0) {
-                        CompactVenue place = taskResult.remove(0);
-                        venueOverlay.addOverlayItem((int) (place.getLocation().getLat() * 1E6), (int) (place.getLocation().getLng() * 1E6), place.getName(), markerBeer);
-                    }
-                    mapView.getOverlays().add(venueOverlay);
-                    mapView.invalidate();
-                }
-            }
-
-            @Override
-            protected ArrayList<CompactVenue> doInBackground(String... ll) {
-                try {
-                    return search.searchVenues(ll[0]);
-                } catch (FoursquareApiException e) {
-                    Log.e(TAG, "Shit went crazy with the API call");
-                    return null;
-                }
-            }
-
-        };
-        Location location = getLocation();
-        String ll = location.getLatitude() + "," + location.getLongitude();
-        async.execute(ll);
+        FetchFourSquare();
     }
 
     private void checkIfGPSIsEnabled() {
@@ -129,6 +96,7 @@ public class MapActivity extends com.google.android.maps.MapActivity {
             super.onLocationChanged(location);
             GeoPoint point = new GeoPoint((int) (location.getLatitude() * 1E6), (int) (location.getLongitude() * 1E6));
             mapViewController.animateTo(point);
+            //FetchFourSquare();
             super.onLocationChanged(location);
         }
 
@@ -221,5 +189,44 @@ public class MapActivity extends com.google.android.maps.MapActivity {
         String bestProvider = locationManager.getBestProvider(criteria, false);
         return locationManager.getLastKnownLocation(bestProvider);
 
+    }
+
+    protected class FetchFourSquareTask extends AsyncTask<String, Void, ArrayList<CompactVenue>> {
+        @Override
+        protected void onPreExecute() {
+            Log.d(TAG, "Entering Foursquare ASync Request");
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<CompactVenue> taskResult) {
+            if (taskResult == null) {
+                Toast.makeText(MapActivity.this, "Unable to load Bars", Toast.LENGTH_LONG).show();
+            } else {
+                while (taskResult.size() > 0) {
+                    CompactVenue place = taskResult.remove(0);
+                    venueOverlay.addOverlayItem((int) (place.getLocation().getLat() * 1E6), (int) (place.getLocation().getLng() * 1E6), place.getName(), markerBeer);
+                }
+                mapView.getOverlays().add(venueOverlay);
+                mapView.invalidate();
+            }
+        }
+
+        @Override
+        protected ArrayList<CompactVenue> doInBackground(String... ll) {
+            try {
+                return search.searchVenues(ll[0]);
+            } catch (FoursquareApiException e) {
+                Log.e(TAG, "Shit went crazy with the API call");
+                return null;
+            }
+        }
+
+    }
+
+    private void FetchFourSquare() {
+        AsyncTask<String, Void, ArrayList<CompactVenue>> async = new FetchFourSquareTask();
+        Location location = getLocation();
+        String ll = location.getLatitude() + "," + location.getLongitude();
+        async.execute(ll);
     }
 }
