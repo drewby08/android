@@ -4,6 +4,7 @@ package edu.osu;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.location.Criteria;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import android.content.Context;
@@ -28,6 +29,10 @@ public class MapActivity extends com.google.android.maps.MapActivity {
     //private MapView mapView;
     LocationManager locationManager;
     Geocoder myGeoLocator;
+    private static FoursquareSearch search = new FoursquareSearch();
+    private Drawable markerBeer = getResources().getDrawable(R.drawable.food_biergarten);
+    private VenueOverlay venueOverlay = new VenueOverlay(markerBeer);
+
 
 	
 	public void onCreate(Bundle savedInstanceState) {
@@ -58,7 +63,31 @@ public class MapActivity extends com.google.android.maps.MapActivity {
         //mapViewController.animateTo(myLocationOverlay.getMyLocation());
         mapView.invalidate();
 
-        VenueOverlay venueOverlay = AddFoursquareLocations();
+        new AsyncTask<String,Void,ArrayList<CompactVenue>>() {
+            @Override
+            protected void onPreExecute() {
+
+            }
+            @Override
+            protected void onPostExecute(ArrayList<CompactVenue> taskResult) {
+                while (taskResult.size() > 0) {
+                    CompactVenue place = taskResult.remove(0);
+                    venueOverlay.addOverlayItem((int) (place.getLocation().getLat() * 1E6),(int) (place.getLocation().getLng() * 1E6),place.getName(), markerBeer);
+                }
+            }
+
+            @Override
+            protected ArrayList<CompactVenue> doInBackground(String... ll) {
+                try
+                {
+                    return search.searchVenues(ll[0]);
+                } catch (FoursquareApiException e) {
+                    Log.e(TAG, "Shit went crazy with the API call");
+                    return null;
+                }
+            }
+
+        };
         mapView.getOverlays().add(venueOverlay);
     }
 
@@ -179,6 +208,10 @@ public class MapActivity extends com.google.android.maps.MapActivity {
         String bestProvider = locationManager.getBestProvider(criteria, false);
         return locationManager.getLastKnownLocation(bestProvider);
 
+    }
+
+    private Drawable getMarkerBeer() {
+        return this.getResources().getDrawable(R.drawable.food_biergarten);
     }
 
 }

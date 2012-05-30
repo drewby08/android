@@ -15,43 +15,12 @@ public class FoursquareSearch {
     private static final String callback = "beerbuddy://connect";
     private static final String TAG = "FoursquareSearch";
     private static FoursquareApi foursquareApi = new FoursquareApi(clientId, clientSecret, callback);
-    private Result<VenuesSearchResult> result = null;
     private boolean pause = true;
 
     public ArrayList<CompactVenue> searchVenues(String ll) throws FoursquareApiException {
         //FoursquareApi foursquareApi = new FoursquareApi(clientId, clientSecret, callback);
         Log.d(TAG, ll);
-        //Result<VenuesSearchResult> result = foursquareApi.venuesSearch(ll, null, null, null, "nightlife", 30, null, null, null, null, null);
-        new AsyncTask<String,Void,Result<VenuesSearchResult>>() {
-            @Override
-            protected void onPreExecute() {
-                pause = true;
-            }
-          @Override
-            protected void onPostExecute(Result<VenuesSearchResult> taskResult) {
-                result = taskResult;
-                pause = false;
-            }
-
-            @Override
-            protected Result<VenuesSearchResult> doInBackground(String... ll) {
-                try
-                {
-                    String location = ll.toString();
-                    return foursquareApi.venuesSearch(location, null, null, null, "nightlife", 30, null, null, null, null, null);
-                } catch (FoursquareApiException e) {
-                    Log.e(TAG, "Shit went crazy with the API call");
-                    return null;
-                }
-            }
-
-        };
-
-        //Stupid loop that is probably a bad idea
-        while(pause) {
-            Log.d(TAG, "Pause now equals: " + pause);
-        }
-
+        Result<VenuesSearchResult> result = foursquareApi.venuesSearch(ll, null, null, null, "nightlife", 30, null, null, null, null, null);
 
         if(result.getMeta().getCode() == 200)
         {
