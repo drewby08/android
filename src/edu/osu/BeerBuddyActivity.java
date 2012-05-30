@@ -46,7 +46,7 @@ public class BeerBuddyActivity extends TabActivity {
         tabHost.addTab(spec);
 
         // Do the same for the other tabs
-        intent = new Intent().setClass(this, LocActivity.class);
+        intent = new Intent().setClass(this, MapActivity.class);
         spec = tabHost.newTabSpec("where am i").setIndicator("where am i",
                 res.getDrawable(R.drawable.ic_launcher))
                 .setContent(intent);

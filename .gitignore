@@ -16,3 +16,11 @@ gen/
 local.properties
 
 .idea/*
+
+.DS_Store
+
+BeerHelper.iml
+
+out/production/BeerHelper/BeerHelper.apk.res
+
+out/production/BeerHelper/BeerHelper.apk.unaligned
