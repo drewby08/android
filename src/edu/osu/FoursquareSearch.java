@@ -20,7 +20,8 @@ public class FoursquareSearch {
     public ArrayList<CompactVenue> searchVenues(String ll) throws FoursquareApiException {
         //FoursquareApi foursquareApi = new FoursquareApi(clientId, clientSecret, callback);
         Log.d(TAG, ll);
-        Result<VenuesSearchResult> result = foursquareApi.venuesSearch(ll, null, null, null, "nightlife", 30, null, null, null, null, null);
+        //Result<VenuesSearchResult> result = foursquareApi.venuesSearch(ll, null, null, null, "nightlife", 30, null, null, null, null, null);
+        Result<VenuesSearchResult> result = foursquareApi.venuesSearch(ll, null, null, null, null, null, null, null, null, null, null);
 
         if(result.getMeta().getCode() == 200)
         {

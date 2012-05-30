@@ -1,6 +1,7 @@
 package edu.osu;
 
 // Graphic Marker Imports
+
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.location.Criteria;
@@ -24,7 +25,7 @@ import java.util.List;
 public class MapActivity extends com.google.android.maps.MapActivity {
     private MyLocationOverlayExtension myLocationOverlay;
     private static final String TAG = "LocationActivity";
-	//LinearLayout linearLayout;
+    //LinearLayout linearLayout;
     private MapController mapViewController;
     private MapView mapView;
     LocationManager locationManager;
@@ -35,8 +36,7 @@ public class MapActivity extends com.google.android.maps.MapActivity {
     private VenueOverlay venueOverlay;
 
 
-	
-	public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         markerBeer = getResources().getDrawable(R.drawable.food_biergarten);
         venueOverlay = new VenueOverlay(markerBeer);
 
@@ -68,7 +68,7 @@ public class MapActivity extends com.google.android.maps.MapActivity {
         //mapViewController.animateTo(myLocationOverlay.getMyLocation());
         mapView.invalidate();
 
-        new AsyncTask<String,Void,ArrayList<CompactVenue>>() {
+        AsyncTask<String, Void, ArrayList<CompactVenue>> async = new AsyncTask<String, Void, ArrayList<CompactVenue>>() {
             @Override
             protected void onPreExecute() {
                 Log.d(TAG, "Entering Foursquare ASync Request");
@@ -76,18 +76,21 @@ public class MapActivity extends com.google.android.maps.MapActivity {
 
             @Override
             protected void onPostExecute(ArrayList<CompactVenue> taskResult) {
-                while (taskResult.size() > 0) {
-                    CompactVenue place = taskResult.remove(0);
-                    venueOverlay.addOverlayItem((int) (place.getLocation().getLat() * 1E6),(int) (place.getLocation().getLng() * 1E6),place.getName(), markerBeer);
+                if (taskResult == null) {
+                    Toast.makeText(MapActivity.this, "Unable to load Bars", Toast.LENGTH_LONG).show();
+                } else {
+                    while (taskResult.size() > 0) {
+                        CompactVenue place = taskResult.remove(0);
+                        venueOverlay.addOverlayItem((int) (place.getLocation().getLat() * 1E6), (int) (place.getLocation().getLng() * 1E6), place.getName(), markerBeer);
+                    }
+                    mapView.getOverlays().add(venueOverlay);
+                    mapView.invalidate();
                 }
-                mapView.getOverlays().add(venueOverlay);
-                mapView.invalidate();
             }
 
             @Override
             protected ArrayList<CompactVenue> doInBackground(String... ll) {
-                try
-                {
+                try {
                     return search.searchVenues(ll[0]);
                 } catch (FoursquareApiException e) {
                     Log.e(TAG, "Shit went crazy with the API call");
@@ -96,6 +99,9 @@ public class MapActivity extends com.google.android.maps.MapActivity {
             }
 
         };
+        Location location = getLocation();
+        String ll = location.getLatitude() + "," + location.getLongitude();
+        async.execute(ll);
     }
 
     private void checkIfGPSIsEnabled() {
@@ -103,9 +109,9 @@ public class MapActivity extends com.google.android.maps.MapActivity {
         boolean enabled = service
                 .isProviderEnabled(LocationManager.GPS_PROVIDER);
 
-    // Check if enabled and if not send user to the GSP settings
-    // Better solution would be to display a dialog and suggesting to
-    // go to the settings
+        // Check if enabled and if not send user to the GSP settings
+        // Better solution would be to display a dialog and suggesting to
+        // go to the settings
         if (!enabled) {
             Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
             startActivity(intent);
@@ -128,11 +134,11 @@ public class MapActivity extends com.google.android.maps.MapActivity {
 
     }
 
-	@Override
-	protected boolean isRouteDisplayed() {
-		// TODO Auto-generated method stub
-		return false;
-	}
+    @Override
+    protected boolean isRouteDisplayed() {
+        // TODO Auto-generated method stub
+        return false;
+    }
 
     @Override
     protected void onResume() {
@@ -193,13 +199,13 @@ public class MapActivity extends com.google.android.maps.MapActivity {
         Drawable markerDefault = this.getResources().getDrawable(R.drawable.food_biergarten);
         VenueOverlay venueOverlay = new VenueOverlay(markerDefault);
         Location location = getLocation();
-        try{
+        try {
             FoursquareSearch search = new FoursquareSearch();
             String ll = location.getLatitude() + "," + location.getLongitude();
             ArrayList<CompactVenue> results = search.searchVenues(ll);
             while (results.size() > 0) {
                 CompactVenue place = results.remove(0);
-                venueOverlay.addOverlayItem((int) (place.getLocation().getLat() * 1E6),(int) (place.getLocation().getLng() * 1E6),place.getName(), markerDefault);
+                venueOverlay.addOverlayItem((int) (place.getLocation().getLat() * 1E6), (int) (place.getLocation().getLng() * 1E6), place.getName(), markerDefault);
             }
             //mapView.getOverlays().add(venueOverlay);
             return venueOverlay;
