@@ -4,17 +4,25 @@ import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 public class BacActivity extends Activity{
 	
@@ -33,7 +41,7 @@ public class BacActivity extends Activity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.bac);
              
-        //--------------------Drinking Start Time-------------------
+        //--------------------Drinking Start Time---------------------
         mTimeDisplay = (TextView) findViewById(R.id.timeDisplay);
         mPickTime = (Button) findViewById(R.id.pickTime);
         
@@ -79,20 +87,67 @@ public class BacActivity extends Activity{
         bacCalc.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Gather Variables
+            	CheckBox nextDay = (CheckBox) findViewById(R.id.nextDay);
             	RadioGroup radioSexGroup = (RadioGroup) findViewById(R.id.radioSex);
                 int selectedId = radioSexGroup.getCheckedRadioButtonId();
                 RadioButton radioSex = (RadioButton) findViewById(selectedId);
                 
                 final Calendar c = Calendar.getInstance();
-                int currentHour = c.get(Calendar.HOUR_OF_DAY);
-                int currentMinute = c.get(Calendar.MINUTE);
-                int hourDiff = (currentHour - mHour );
-                int minDiff = (currentMinute - mMinute);
-                int totalDiff = (minDiff + (60 * hourDiff));
+                int totalDiff = 0;
+                if(nextDay.isChecked()){
+                	int currentHour = c.get(Calendar.HOUR_OF_DAY) + 24;
+                    int currentMinute = c.get(Calendar.MINUTE);
+                    int hourDiff = (currentHour - mHour );
+                    if (currentMinute < mMinute){
+                    	currentMinute = currentMinute + 60;
+                    }
+                    int minDiff = (currentMinute - mMinute);
+                    totalDiff = (minDiff + (60 * hourDiff));
+                }
+                else{
+                	int currentHour = c.get(Calendar.HOUR_OF_DAY);
+                    int currentMinute = c.get(Calendar.MINUTE);
+                    int hourDiff = (currentHour - mHour );
+                    //Check to make sure they did not enter a time in the past
+                    if (hourDiff < 0){
+                    	Context con = getApplicationContext();
+                    	Toast toast = Toast.makeText(con, "Please enter a time that is in the past", Toast.LENGTH_SHORT);
+                    	toast.setGravity(Gravity.CENTER|Gravity.CENTER, 0, 0);
+                    	toast.show();
+                    	return;
+                    }
+                    if (currentMinute < mMinute){
+                    	currentMinute = currentMinute + 60;
+                    }
+                    int minDiff = (currentMinute - mMinute);
+                    totalDiff = (minDiff + (60 * hourDiff));
+                }
                 
                 EditText temp = (EditText) findViewById(R.id.bacWeight);
                 String tempString = temp.getText().toString();
+                if (tempString.matches("")){
+                	Context con = getApplicationContext();
+                	Toast toast = Toast.makeText(con, "Please enter a value between 100-400 for weight", Toast.LENGTH_SHORT);
+                	toast.setGravity(Gravity.CENTER|Gravity.CENTER, 0, 0);
+                	toast.show();
+                	return;
+                }
                 int weight = Integer.parseInt(tempString);
+                
+                //Check for weight restrictions
+                if (weight < 100){
+                	Context con = getApplicationContext();
+                	Toast toast = Toast.makeText(con, "Please enter a value between 100-400 for weight", Toast.LENGTH_SHORT);
+                	toast.setGravity(Gravity.CENTER|Gravity.CENTER, 0, 0);
+                	toast.show();
+                	return;
+                }else if(weight > 400){
+                	Context con = getApplicationContext();
+                	Toast toast = Toast.makeText(con, "Please enter a value between 100-400 for weight", Toast.LENGTH_SHORT);
+                	toast.setGravity(Gravity.CENTER|Gravity.CENTER, 0, 0);
+                	toast.show();
+                	return;
+                }
                 
                 TextView bacView = (TextView) findViewById(R.id.bac_bloodAlcoholContent);
                 
@@ -116,6 +171,10 @@ public class BacActivity extends Activity{
                 	double subtraction = (.005 * soberingFactor);
                 	
                 	bac = bac - subtraction;
+                	if(bac<0)
+                	{
+                		bac=0;
+                	}
                 	updateBac(bacView, round(bac, 2, BigDecimal.ROUND_HALF_UP));
                 }
                 //Algorithm used for women
@@ -138,7 +197,11 @@ public class BacActivity extends Activity{
                 	double subtraction = (.005 * soberingFactor);
                 	
                 	bac = bac - subtraction;
-                	updateBac(bacView, bac);
+                	if(bac<0)
+                	{
+                		bac=0;
+                	}
+                	updateBac(bacView, round(bac, 2, BigDecimal.ROUND_HALF_UP));
                 }
             }
         });
@@ -166,7 +229,7 @@ public class BacActivity extends Activity{
 	private void updateBac(TextView t, double d){
 		t.setText(
 				new StringBuilder()
-				.append("Current Estimated BAC: ")
+				.append("Estimated BAC: ")
 				.append(Double.toString(d)));
 	}
 	
